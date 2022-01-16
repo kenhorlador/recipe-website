@@ -1,3 +1,13 @@
+# Description
+
+This is a website that utilizes <a href="https://reactjs.org/">ReactJS v18</a>, HTML5, CSS3, and Javascript ES6+. Fetches and Posts API from/to a database using json-server.
+
+> JSON-Server needs to initialize first before the main app
+
+```bash
+$ json-server --watch ./data/db.json
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
