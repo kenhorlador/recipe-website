@@ -1,0 +1,7 @@
+.searchbar {
+  display: flex;
+}
+
+.searchbox input {
+  max-width: 450px;
+}
