@@ -27,7 +27,7 @@ export default function RecipeList({ data }) {
     setInfo(filteredData)
   }, [data, searchField])
 
-  useEffect(() => { 
+  useEffect(() => {
     setInfo(prevRecipe => {
       return prevRecipe.map(recipe => {
         return {...recipe, link: `${recipe.id}-${recipe.title.trim().toLowerCase().split(' ').join('-')}`}
@@ -44,7 +44,7 @@ export default function RecipeList({ data }) {
           <h3>{ recipe.title }</h3>
           <p>{ recipe.cookingTime } to make.</p>
           <p>{ recipe.method.substring(0, 100)}...</p>
-          <Link to={`/recipes/${ recipe.link }`} children="Cook this" />
+          <Link to={recipe.link === undefined ? '/' : `/recipes/${ recipe.link }`} children="Cook this" />
         </div>
       )) }
     </div>
