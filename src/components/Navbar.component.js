@@ -6,12 +6,11 @@ import { useTheme } from '../hooks/useTheme'
 import './Navbar.style.css'
 
 export default function Navbar() {
-
-  const { color, changeColor } = useTheme()
+  const { color } = useTheme()
 
   return (
     <div className="navbar" style={{ background: color }}>
-      <nav onClick={() => changeColor('pink')}>
+      <nav>
         <Link to="/"
           className="brand"
           children={<h1>Recipe App</h1>}

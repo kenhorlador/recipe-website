@@ -9,17 +9,18 @@ import Create from './pages/create/Create.page'
 import Home from './pages/home/Home.page'
 import Recipe from './pages/recipe/Recipe.page'
 import Search from './pages/search/Search.page'
+import ThemeSelector from './components/ThemeSelector.component'
 
 // Styles
 import './App.css'
 
 function App() {
-  
+
 
   return (
     <div className="App">
       <Navbar />
-
+      <ThemeSelector />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<Create />} />

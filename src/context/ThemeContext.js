@@ -14,7 +14,7 @@ const themeReducer = (state, action) => {
 export const ThemeProvider = ({ children }) => {
 
   // Custom logic
-  const [state, dispatch] = useReducer(themeReducer, { color: 'blue' })
+  const [state, dispatch] = useReducer(themeReducer, { color: '#58249c' })
 
   const changeColor = (color) => {
     return dispatch({ type: 'CHANGE_COLOR', payload: color})
