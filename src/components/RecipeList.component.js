@@ -39,6 +39,7 @@ export default function RecipeList({ data }) {
     <>
     <SearchBar searchChange={ onSearchChange } />
     <div className="recipe-list">
+      { !info.length && <div>No recipes with title equivalent to <strong>'{ searchField }'</strong></div>}
       { info.map(recipe => (
         <div key={ recipe.id } className="card">
           <h3>{ recipe.title }</h3>

@@ -1,9 +1,15 @@
+// Package
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom'
-import './index.css';
+
+// Components
 import App from './App';
+
+// Context
 import { ThemeProvider } from './context/ThemeContext'
+
+import './index.css';
 
 ReactDOM.render(
   <BrowserRouter>

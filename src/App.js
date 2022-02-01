@@ -9,6 +9,8 @@ import Create from './pages/create/Create.page'
 import Home from './pages/home/Home.page'
 import Recipe from './pages/recipe/Recipe.page'
 import Search from './pages/search/Search.page'
+
+// Components
 import ThemeSelector from './components/ThemeSelector.component'
 
 // Styles
