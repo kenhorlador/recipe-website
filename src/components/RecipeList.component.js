@@ -27,13 +27,15 @@ export default function RecipeList({ data }) {
     setInfo(filteredData)
   }, [data, searchField])
 
+  console.log(searchField, data)
+
   useEffect(() => {
     setInfo(prevRecipe => {
       return prevRecipe.map(recipe => {
         return {...recipe, link: `${recipe.id}-${recipe.title.trim().toLowerCase().split(' ').join('-')}`}
       })
     })
-  }, [])
+  }, [searchField])
 
   return (
     <>

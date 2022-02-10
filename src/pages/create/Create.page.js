@@ -1,9 +1,9 @@
 // Packages
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// Hooks
-import { useFetch } from '../../hooks/useFetch'
+// Firebase
+import { projectFirestore } from '../../firebase/config'
 
 // Styles
 import './Create.styles.css'
@@ -15,21 +15,21 @@ export default function Create() {
   const [newIngredient, setNewIngredient] = useState('')
   const [ingredients, setIngredients] = useState([])
   const ingredientInput = useRef(null)
-  
-  const { data, postData } = useFetch('http://localhost:3000/recipes', "POST")
+
   const navigate = useNavigate()
 
-  // If the data is fetched for posting, then automatically redirect the user to the homepage
-  useEffect(() => {
-    if (data) {
-      navigate('/')
-    }
-  }, [data, navigate])
 
   // Submits the form
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    postData({ title, ingredients, method, cookingTime: cookingTime + ' minutes' })
+    const doc = { title, ingredients, method, cookingTime: cookingTime + ' minutes' }
+
+    try {
+      await projectFirestore.collection('recipes').add(doc)
+      navigate('/')
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   // Add ingredient to the array
@@ -71,21 +71,21 @@ export default function Create() {
         <label>
           <span>Recipe ingredients:</span>
           <div className='ingredients'>
-            <input 
-              type="text" 
+            <input
+              type="text"
               onChange={(e) => setNewIngredient(e.target.value)}
               value={newIngredient}
               ref={ingredientInput}
             />
-          
-            <button 
+
+            <button
               className='btn'
-              onClick={handleAdd}  
+              onClick={handleAdd}
             >Add</button>
 
           </div>
-          <div className="ingredients-container">Current ingredients: 
-            {ingredients && ingredients.map(ingredient => 
+          <div className="ingredients-container">Current ingredients:
+            {ingredients && ingredients.map(ingredient =>
               <span onClick={handleRemove} key={ingredient}>{ingredient}</span>
             )}
           </div>
@@ -93,7 +93,7 @@ export default function Create() {
 
         <label>
           <span>Recipe method:</span>
-          <textarea 
+          <textarea
             onChange={(e) => setMethod(e.target.value)}
             value={ method }
             required
@@ -102,7 +102,7 @@ export default function Create() {
 
         <label>
           <span>Cooking time(minutes):</span>
-          <input 
+          <input
             type="number"
             onChange={(e) => setCookingTime(e.target.value)}
             value={ cookingTime }

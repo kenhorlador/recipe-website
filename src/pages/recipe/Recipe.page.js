@@ -1,23 +1,40 @@
 // Packages
+import { useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
 
-// Hooks
-import { useFetch } from '../../hooks/useFetch'
+// Firebase
+import { projectFirestore } from '../../firebase/config'
 
 // Styles
 import './Recipe.styles.css'
 
 export default function Recipe() {
   const { link } = useParams()
+  let searchId = link.split('-')[0]
 
-  let search = link.split('-')[0]
+  const [recipe, setRecipe] = useState(null)
+  const [isPending, setIsPending] = useState(false)
+  const [error, setError] = useState(false)
 
-  console.log(search)
+  useEffect(() => {
 
-  const url = 'http://localhost:3000/recipes/' + search
-  const { data:recipe, error, isPending } = useFetch(url)
+    projectFirestore.collection('recipes').doc(searchId).get().then(doc => {
 
-  console.log(recipe)
+      setIsPending(true)
+
+      // If a certain recipe exists, fetch that recipe
+      if (doc.exists) {
+        setIsPending(false)
+        setRecipe(doc.data())
+      }
+      // If the recipe does not exist, throw an error
+      else {
+        setIsPending(false)
+        setError('Could not fetch that recipe')
+      }
+    })
+
+  }, [searchId])
 
   return (
     <div className='recipe'>
