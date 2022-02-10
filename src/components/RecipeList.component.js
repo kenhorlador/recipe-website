@@ -5,8 +5,14 @@ import { Link } from 'react-router-dom'
 // Components
 import SearchBar from './SearchBar.component'
 
+// Firebase
+import { projectFirestore } from '../firebase/config'
+
 // Styles
 import './RecipeList.style.css'
+
+// Svg
+import Trashcan from '../assets/trashcan.svg'
 
 export default function RecipeList({ data }) {
 
@@ -14,11 +20,8 @@ export default function RecipeList({ data }) {
   const [info, setInfo] = useState(data)
 
   const onSearchChange = (event) => {
-    console.log(event.target.value)
     setSearchField(event.target.value)
   }
-
-  console.log("recipes", info)
 
   useEffect(() => {
     const filteredData = data.filter(filtered => {
@@ -27,7 +30,6 @@ export default function RecipeList({ data }) {
     setInfo(filteredData)
   }, [data, searchField])
 
-  console.log(searchField, data)
 
   useEffect(() => {
     setInfo(prevRecipe => {
@@ -36,6 +38,10 @@ export default function RecipeList({ data }) {
       })
     })
   }, [searchField])
+
+  const handleDelete = (id) => {
+    projectFirestore.collection('recipes').doc(id).delete()
+  }
 
   return (
     <>
@@ -48,6 +54,12 @@ export default function RecipeList({ data }) {
           <p>{ recipe.cookingTime } to make.</p>
           <p>{ recipe.method.substring(0, 100)}...</p>
           <Link to={recipe.link === undefined ? '/' : `/recipes/${ recipe.link }`} children="Cook this" />
+          <img
+            src={Trashcan}
+            className="deleteIcon"
+            onClick={() => handleDelete(recipe.id)}
+            alt="delete icon"
+          />
         </div>
       )) }
     </div>

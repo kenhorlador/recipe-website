@@ -20,7 +20,7 @@ export default function Home() {
     // Start fetch of data
     setIsPending(true)
 
-    projectFirestore.collection('recipes').get().then(snapShot => {
+    const unsub = projectFirestore.collection('recipes').onSnapshot(snapShot => {
       if (snapShot.empty) {
         setError('No recipes to load')
         setIsPending(false)
@@ -32,10 +32,12 @@ export default function Home() {
         setData(results)
         setIsPending(false)
       }
-    }).catch(err => {
+    }, (err) => {
       setError(err.message)
       setIsPending(false)
     })
+
+      return () => unsub()
   },[])
 
   return (
